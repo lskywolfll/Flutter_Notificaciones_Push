@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:push_local/src/pages/home_page.dart';
+import 'package:push_local/src/pages/mensaje_page.dart';
 import 'package:push_local/src/providers/push_notifications.dart';
 
 void main() => runApp(MyApp());
@@ -15,6 +17,12 @@ class _MyAppState extends State<MyApp> {
 
     final pushProvider = new PushNotificacionProvider();
     pushProvider.initNotifications();
+
+    pushProvider.mensajes.listen((argumento) {
+      // Navigator.pushNamed(context, 'mensaje');
+      print('Argumento del push');
+      print(argumento);
+    });
   }
 
   @override
@@ -22,16 +30,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Push Local',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
-      ),
+      initialRoute: 'home',
+      routes: {
+        'home': (BuildContext context) => HomePage(),
+        'mensaje': (BuildContext context) => MensajePage()
+      },
     );
   }
 }
