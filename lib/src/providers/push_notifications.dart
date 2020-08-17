@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,6 +16,25 @@ class PushNotificacionProvider {
     _mensajesStreamController?.close();
   }
 
+  void EnviarToken(String token) async {
+    Map respuesta = new Map<String, dynamic>();
+    respuesta["token"] = token;
+    final response =
+        await http.post('http://3.17.182.71:49120/Users', body: respuesta);
+
+    if (response.statusCode == 200 ||
+        response.statusCode == 201 ||
+        response.statusCode == 204) {
+      enviarMensaje('Se registro correctamente');
+    } else {
+      enviarMensaje("No se pudo enviar el token :(");
+    }
+  }
+
+  void enviarMensaje(mensaje) {
+    _mensajesStreamController.sink.add(mensaje);
+  }
+
   initNotifications() {
     _firebaseMessaging.requestNotificationPermissions();
 
@@ -21,12 +42,10 @@ class PushNotificacionProvider {
       print('FFC TOKEN');
       print(token);
 
+      EnviarToken(token);
+
       // ezE-l5doqgM:APA91bFzaotDPI0AYd_Lll6Yfhkn2rq-qUq1xNnVWffQfsYjYT9N7ynLaA42qSng6CIxRZtOr_3hC_Yd-KqshI7gxXStC6KEjqAWdS6hPkJGnHD3Qo-0hSnSJhU7tkFw6pVWYaVP0hFp
     });
-
-    void enviarMensaje(mensaje) {
-      _mensajesStreamController.sink.add(mensaje);
-    }
 
     _firebaseMessaging.configure(
       onMessage: (message) {
