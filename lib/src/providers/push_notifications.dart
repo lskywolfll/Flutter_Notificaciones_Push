@@ -54,7 +54,7 @@ class PushNotificacionProvider {
 
         String argumento = 'no-data';
         if (Platform.isIOS) {
-          argumento = message['data']['comida'] ?? 'no-data';
+          argumento = message['comida'] ?? 'no-data';
           enviarMensaje(argumento);
         }
 
@@ -69,7 +69,7 @@ class PushNotificacionProvider {
 
         String argumento = 'no-data';
         if (Platform.isIOS) {
-          argumento = message['data']['comida'] ?? 'no-data';
+          argumento = message['comida'] ?? 'no-data';
           enviarMensaje(argumento);
         }
 
@@ -84,7 +84,7 @@ class PushNotificacionProvider {
 
         String argumento = 'no-data';
         if (Platform.isIOS) {
-          argumento = message['data']['comida'] ?? 'no-data';
+          argumento = message['comida'] ?? 'no-data';
           enviarMensaje(argumento);
         }
 
